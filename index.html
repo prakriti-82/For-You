@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Surprise 🎉</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; font-family:"Poppins", sans-serif; }
+  body { 
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7); 
+    min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; 
+    overflow:hidden; padding:20px; position:relative;
+  }
+
+  #revealBtn, #exitBtn, #pauseBtn {
+    background: linear-gradient(135deg,#ff2e63,#ff6f91);
+    border:none; padding:15px 35px; color:white; font-size:18px; font-weight:bold;
+    border-radius:40px; cursor:pointer; transition:all 0.3s ease; 
+    box-shadow:0 4px 15px rgba(0,0,0,0.2); margin:10px;
+    z-index: 10; position: relative; opacity:1;
+  }
+
+  #revealBtn:hover, #exitBtn:hover, #pauseBtn:hover { 
+    transform: scale(1.05); 
+    background: linear-gradient(135deg,#e60050,#ff4d6d); 
+  }
+
+  .card {
+    display:flex; align-items:center; justify-content:center; text-align:center;
+    width:90%; max-width:400px; min-height:150px; border-radius:20px;
+    background:white; box-shadow:0 10px 25px rgba(0,0,0,0.15);
+    font-size:1.5em; color:#ff2e63; padding:20px;
+    opacity:0; transform: scale(0.5);
+    position:absolute; top:50%; left:50%; flex-direction: column;
+  }
+
+  .card img { width:200px; border-radius:15px; margin-top:15px; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+
+  .heart {
+    position:absolute; bottom:-50px; width:25px; height:25px; background:red; transform:rotate(-45deg);
+    border-radius:5px; opacity:0.8;
+  }
+  .heart::before, .heart::after { content:""; position:absolute; width:25px; height:25px; background:red; border-radius:50%; }
+  .heart::before { top:-12.5px; left:0; } 
+  .heart::after { top:0; left:12.5px; }
+
+  .balloon {
+    position:absolute; bottom:-70px; width:40px; height:60px; border-radius:50%;
+    animation: floatUp 8s linear infinite; opacity:0.7;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(0); opacity:1; }
+    100% { transform: translateY(-110vh); opacity:0; }
+  }
+
+  #exitBtn.show { opacity:1 !important; transform: translateY(0) !important; transition: all 1s ease; }
+  #exitBtn { opacity:0; transform: translateY(50px); }
+  #pauseBtn { position: fixed; bottom: 20px; }
+</style>
+</head>
+<body>
+
+<button id="revealBtn">🎁 Something Special for You "click me"🎉</button>
+<button id="pauseBtn" style="display:none;">⏸ Pause</button>
+<button id="exitBtn">🎉 Exit 🎊</button>
+
+<!-- Cards -->
+<div class="card" id="card1">🎉 HAPPIEST BIRTHDAY BABE 💖🎂<img src="IMG_20250830_131709.png" alt ="My Better half"></div>
+<div class="card" id="card2">💖 My One & Only favourite person's Special day is Here ✨<img src="IMG_20250803_210443.jpg" alt="Bestie 1"></div>
+<div class="card" id="card3">🎁 You are the most precious gift life gave me! 🌸<img src="IMG_20250309_174412.jpg" alt="My Fav.Person"></div>
+<div class="card" id="card4">💕 Forever grateful to have you as my safe place 💫<img src="IMG_20250626_204933.jpg" alt="Lovely soul inside out"></div>
+<div class="card" id="card5">💌 If besties were an app, you'd be my favourite download 💞<img src="Snapchat-1960653459.jpg" alt="Only you"></div>
+<div class="card" id="card6">🌸 You light up my world! <img src="IMG_20250830_131843.png" alt="Only you"></div>
+<div class="card" id="card7">💞 The smile that makes my heart smile too...the reason is you 💕<img src="IMG_20250830_131831.png" alt="Only you"></div>
+<div class="card" id="card8">🎊 Every moment becomes perfect when you're a part of it 💖<img src="IMG-20250626-WA0047.jpg" alt="Only you"></div>
+<div class="card" id="card9">✨ Cheers to our bond that only grows stronger with time!✨ <img src="Snapchat-674596565.jpg" alt="Only you"></div>
+<div class="card" id="card10">🎈 Don't ever feel sad thinking no one is there...because you will always have me by your side 💫 <img src="Snapchat-714622012.jpg" alt="Only you"></div>
+<div class="card" id="card11">💖 The best memories of my life are the ones I've made with you and more to be added 💌 <img src="Snapchat-1570644691.jpg" alt="Only you"></div>
+<div class="card" id="card12">🌹 To the one who makes my life brighter, Thank you for being my sunshine ✨<img src="Snapchat-843131063.jpg" alt="Only you"></div>
+<div class="card" id="card13">🎉 Nothing else, Just a big Thank you.<br> Remember: "I Love You".<br>Just be the Same As You Are 💖</div>
+
+<!-- Two audios -->
+<audio id="audio1" src="AUD-20250831-WA0000.mp3"></audio>
+<audio id="audio2" src="Preet Re .mp3"></audio>
+
+<script>
+const audio1 = document.getElementById("audio1");
+const audio2 = document.getElementById("audio2");
+
+let currentAudio = audio1;
+
+function playNextAudio(finishedAudio) {
+  if(finishedAudio === audio1){
+    currentAudio = audio2;
+    audio2.play();
+  } else {
+    currentAudio = audio1;
+    audio1.play();
+  }
+}
+
+audio1.addEventListener("ended", ()=> playNextAudio(audio1));
+audio2.addEventListener("ended", ()=> playNextAudio(audio2));
+
+const revealBtn = document.getElementById("revealBtn");
+const pauseBtn = document.getElementById("pauseBtn");
+const exitBtn = document.getElementById("exitBtn");
+const cards = [];
+for(let idx=1; idx<=13; idx++){ cards.push(document.getElementById("card"+idx)); }
+
+let i = 0;
+let paused = false;
+let currentCard = null;
+let cardTimeout;
+
+function showNextCard() {
+  if(i >= cards.length){
+    exitBtn.classList.add("show");
+    return;
+  }
+  currentCard = cards[i];
+  const fromLeft = Math.random()<0.5;
+  const startX = fromLeft ? -window.innerWidth : window.innerWidth;
+  const exitX = fromLeft ? window.innerWidth : -window.innerWidth;
+
+  currentCard.style.transition = "none";
+  currentCard.style.transform = `translate(${startX}px, -50%) scale(0.5)`;
+  currentCard.style.opacity = 0;
+
+  setTimeout(() => {
+    if(!paused){
+      currentCard.style.transition = "transform 1s cubic-bezier(.68,-0.55,.27,1.55), opacity 1s ease";
+      currentCard.style.transform = "translate(-50%, -50%) scale(1)";
+      currentCard.style.opacity = 1;
+    }
+  }, 50);
+
+  cardTimeout = setTimeout(() => {
+    if(!paused){
+      currentCard.style.transition = "transform 1.5s ease-in, opacity 1.5s ease-in";
+      currentCard.style.transform = `translate(${exitX}px, -50%) scale(0.5) rotate(${fromLeft?-20:20}deg)`;
+      currentCard.style.opacity = 0;
+      i++;
+      setTimeout(showNextCard, 500);
+    }
+  }, 3500);
+}
+
+revealBtn.addEventListener("click", () => {
+  revealBtn.style.display = "none";
+  pauseBtn.style.display = "block";
+  currentAudio = audio1;
+  audio1.play();
+  setInterval(createHeart, 800);
+  setInterval(createBalloon, 1200);
+  showNextCard();
+});
+
+pauseBtn.addEventListener("click", () => {
+  paused = !paused;
+  if(paused){
+    pauseBtn.textContent = "▶️ Resume";
+    clearTimeout(cardTimeout);
+    currentAudio.pause();
+    if(currentCard){
+      const comp = window.getComputedStyle(currentCard);
+      currentCard.style.transition = "none";
+      currentCard.style.transform = comp.transform;
+    }
+  } else {
+    pauseBtn.textContent = "⏸ Pause";
+    currentAudio.play();
+    if(currentCard){
+      const fromLeft = Math.random()<0.5;
+      const exitX = fromLeft ? window.innerWidth : -window.innerWidth;
+      currentCard.style.transition = "transform 1.5s ease-in, opacity 1.5s ease-in";
+      setTimeout(() => {
+        currentCard.style.transform = `translate(${exitX}px, -50%) scale(0.5) rotate(${fromLeft?-20:20}deg)`;
+        currentCard.style.opacity = 0;
+        i++;
+        setTimeout(showNextCard, 500);
+      }, 50);
+    }
+  }
+});
+
+exitBtn.addEventListener("click", () => {
+  audio1.pause(); audio1.currentTime=0;
+  audio2.pause(); audio2.currentTime=0;
+  alert("Enjoy Your Special Day Madam! 🎉");
+  location.reload();
+});
+
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  let side = Math.random()<0.5 ? Math.random()*20 : 80 + Math.random()*20;
+  heart.style.left = side + "vw";
+  let duration = 6 + Math.random()*4;
+  heart.style.transition = `transform ${duration}s linear, opacity ${duration}s`;
+  document.body.appendChild(heart);
+  setTimeout(()=>heart.style.transform = "translateY(-110vh)",50);
+  setTimeout(()=>heart.remove(), duration*1000);
+}
+
+function createBalloon() {
+  const balloon = document.createElement("div");
+  balloon.classList.add("balloon");
+  balloon.style.left = Math.random()*100 + "vw";
+  balloon.style.backgroundColor = `hsl(${Math.random()*360}, 70%, 60%)`;
+  balloon.style.animationDuration = (6 + Math.random()*4) + "s";
+  document.body.appendChild(balloon);
+  setTimeout(()=>balloon.remove(),10000);
+}
+</script>
+</body>
+</html>
