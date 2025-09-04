@@ -23,11 +23,11 @@ button {
 button:hover { transform: scale(1.05); background: linear-gradient(135deg,#e60050,#ff4d6d); }
 
 #cake {
-  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%) scale(0);
+  position: fixed; top: 40%; left: 50%; transform: translate(-50%,-50%) scale(0);
   font-size: 100px; z-index: 20; transition: transform 0.6s ease;
 }
 #popup {
-  position: fixed; top: 70%; left: 50%; transform: translateX(-50%) scale(0);
+  position: fixed; top: 65%; left: 50%; transform: translateX(-50%) scale(0);
   background: white; padding: 20px 40px; border-radius: 20px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.2); font-size: 20px; color:#ff2e63;
   z-index: 20; transition: transform 0.6s ease;
@@ -65,8 +65,6 @@ button:hover { transform: scale(1.05); background: linear-gradient(135deg,#e6005
   100% { transform: translateY(-110vh); opacity:0; }
 }
 
-.confetti { position:absolute; width:8px; height:8px; border-radius:2px; z-index: 5; }
-
 #exitBtn.show { opacity:1 !important; transform: translateY(0) !important; transition: all 1s ease; }
 #exitBtn { opacity:0; transform: translateY(50px); }
 #pauseBtn { position: fixed; bottom: 20px; }
@@ -75,12 +73,12 @@ button:hover { transform: scale(1.05); background: linear-gradient(135deg,#e6005
 </head>
 <body>
 
-<button id="revealBtn">🎁Special for You "click me"🎉</button>
+<button id="revealBtn">🎁Specially for You "click me"🎉</button>
 <button id="pauseBtn" style="display:none;">⏸ Pause</button>
 <button id="exitBtn">🎉 Exit 🎊</button>
 
 <div id="cake">🎂</div>
-<div id="popup">Lets Start 🎉💖</div>
+<div id="popup">Lets Start!! 🎉💖</div>
 <img src="OIP.jpg" class="sticker left" id="stickerLeft" alt="Cute Sticker Left">
 <img src="OIP.jpg" class="sticker right" id="stickerRight" alt="Cute Sticker Right">
 
@@ -178,7 +176,7 @@ function showNextCard(){
     }
   },50);
 
-  const displayTime = fullText.length*50 + 2000;
+  const displayTime = fullText.length*50 + 1000; // ⏳ faster timing
   startTime = Date.now();
   remainingTime = displayTime;
 
@@ -210,6 +208,7 @@ revealBtn.addEventListener("click", ()=>{
     stickerLeft.classList.remove("show");
     stickerRight.classList.remove("show");
     audio1.play();
+    currentAudio = audio1;
     showNextCard();
   },6000);
 });
@@ -229,11 +228,9 @@ pauseBtn.addEventListener("click", ()=>{
     cardTimeout = setTimeout(()=>{
       const fromLeft = Math.random() < 0.5;
       const exitX = fromLeft ? window.innerWidth : -window.innerWidth;
-
       currentCard.style.transition = "transform 1.5s ease-in, opacity 1.5s ease-in";
       currentCard.style.transform = `translate(${exitX}px, -50%) scale(0.5) rotate(${fromLeft?-20:20}deg)`;
       currentCard.style.opacity = 0;
-
       currentCardIndex++;
       setTimeout(showNextCard,500);
     }, remainingTime);
@@ -273,7 +270,10 @@ function createBalloon(){
   document.body.appendChild(balloon);
   setTimeout(()=>balloon.remove(),10000);
 }
+setInterval(createHeart, 800);
+setInterval(createBalloon, 1500);
 </script>
 </body>
 </html>
+
 
